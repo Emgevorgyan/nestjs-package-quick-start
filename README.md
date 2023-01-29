@@ -8,38 +8,52 @@
 [linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
 [linux-url]: https://travis-ci.org/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
 
-This is a quick start guide for setting up a NestJS project for creating your own package library with [automated versioning](https://github.com/release-it/release-it) and package publishing. This library can be used across multiple applications, providing a convenient way to share functionality and code.
+This is a quick start project for setting up your own package library. It includes automated versioning using [release-it](https://github.com/release-it/release-it) and publishing the package for use in multiple applications, allowing for easy sharing of functionality and code.
 
 
-# Quick Start
+## Installation
 
 ```bash
 $ git clone git@github.com:Emgevorgyan/nestjs-package-quick-start.git
+$ cd nestjs-package-quick-start
+# install dependencies
+$ npm ci
 ```
-## Release a new version:
 
-```bash
-$ npm run release
-```
+## Build your package 
+
+Take a moment to poke around in the `nestjs-package-quick-start` folder. Here are a few things to notice:
+
+1. The `lib` folder has two files: 
+	 * `test.ts` is the entire functionality of our package; it exports one simple test function (getMessage) we'll import into our app to prove to ourselves that we've actually installed and are using the package.
+	 *  `index.ts` exports the `test.ts` function from the folder (it's a [barrel file](https://basarat.gitbook.io/typescript/main-1/barrel)).
+
+2. The `package.json` file has several important sections. One to pay attention to now is the different types of package dependencies that are listed:
+	* `devDependencies` are packages that are only required for the development. In this case, since we are building a Nest-based package, we need Nest and other development tools such as testing utilities and TypeScript.
+	* `peerDependencies`: this section is used to indicate that the package is compatible with Nest version 9 (with a minimum of 9.0.0). This ensures that the project using the package has a compatible NestJS environment. Declaring the @nestjs/common package is sufficient for this purpose. Specifying a version of ^9.0.0 allows for compatibility with any minor versions of NestJS that the user may have installed.
+	* `dependencies`: this section lists the packages that are required to run the code. These should not include NestJS, but any additional packages needed for the code to function. For example, if the dotenv package is used in the code, it would belong in the dependencies section, as it is not provided by NestJS.
+
+***
+Add your modules and services...
+
+To make the code accessible to other applications, you need to export it in the `index.ts` file, similar to how it is done for the `test.ts` file.
+
+`export * from './test';`
+
+
+##  Publish Package:
+
+Before publishing the package to the npm registry:
+
+* set a name for your package (chose a unique name for you package or just use scoped names)
+* edit package.json
+Identify your reusable library by updating the `name`, `version`, `author`, adding a link to a git `repository` etc. Additionally, to learn more about versioning your package when publishing or republishing, refer to [semantic versioning (“semver”)](https://semver.org/) which is the best practice for npm packages.
+
+To publish your package on npm, first, [create an account](https://www.npmjs.com/signup) on npm if you don't have one. Then run the command `npm login` in the console.
+Navigate to the root of your package, run `npm run prerelease` and then `npm run release` to release your package to the npm registry. By default, [release-it is](https://github.com/release-it/release-it#interactive-vs-ci-mode) interactive and allows you to confirm each task before execution.
 
 
 ## License
